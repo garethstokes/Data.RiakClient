@@ -48,6 +48,7 @@
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\DetachRequest.cs" />
     <Compile Include="Models\ResponseMethod.cs" />
+    <Compile Include="Models\RiakClientId.cs" />
     <Compile Include="Models\RiakDocument.cs" />
     <Compile Include="Models\FindRequest.cs" />
     <Compile Include="Models\FindResponse.cs" />

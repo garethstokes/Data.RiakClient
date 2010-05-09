@@ -20,5 +20,35 @@ namespace System.Data.RiakClient.Models
                 return client.GetStream();
             }
         }
+
+        public RiakResponse<R> Write<T,R>(T request, RequestMethod method) where R : new()
+        {
+            try
+            {
+                var message = PackagedMessage.From(request, RequestMethod.Ping);
+                Stream.Write(message, 0, message.Length);
+            }
+            catch (SocketException e)
+            {
+                return RiakResponse<R>.WithErrors(new R(), "Could not establish connection", e.Message);
+            }
+
+            return RiakResponse<R>.WithoutErrors(new R());
+        }
+
+        public RiakResponse<TR> WriteWithoutRequestBody<TR>(TR defaultValue, RequestMethod method)
+        {
+            try
+            {
+                var message = PackagedMessage.JustHeader(RequestMethod.Ping);
+                Stream.Write(message, 0, message.Length);
+            }
+            catch (SocketException e)
+            {
+                return RiakResponse<TR>.WithErrors(defaultValue, "Could not establish connection", e.Message);
+            }
+
+            return RiakResponse<TR>.WithoutErrors(defaultValue);
+        }
     }
 }

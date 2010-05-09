@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.RiakClient.Models;
-using System.Net.Sockets;
+using System.Data.RiakClient.Helpers;
 
 namespace System.Data.RiakClient
 {
@@ -18,19 +18,17 @@ namespace System.Data.RiakClient
 
         public RiakResponse<bool> Ping()
         {
-            var s = Connection.Stream;
+            var response = Connection.WriteWithoutRequestBody(false, RequestMethod.Ping);
+            if (response.ResponseCode == RiakResponseCode.Successful) response.Result = true;
+            return response;
+        }
 
-            try
-            {
-                var message = PackagedMessage.JustHeader(RequestMethod.Ping);
-                s.Write(message, 0, message.Length);
-            }
-            catch (SocketException e)
-            {
-                return RiakResponse<bool>.WithErrors(false, "Could not establish connection", e.Message);
-            }
-
-            return RiakResponse<bool>.WithoutErrors(true);
+        public RiakResponse<string> FindClientId()
+        {
+            var r = Connection.WriteWithoutRequestBody(new byte[] {}, RequestMethod.GetClientId);
+            return r.ResponseCode == RiakResponseCode.Failed 
+                ? RiakResponse<string>.WithErrors(r.Result.DecodeToString(), r.Messages) 
+                : RiakResponse<string>.WithoutErrors(r.Result.DecodeToString());
         }
     }
 }
