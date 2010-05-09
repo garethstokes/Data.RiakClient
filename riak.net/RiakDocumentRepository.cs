@@ -15,55 +15,45 @@ namespace System.Data.RiakClient
             _connectionManager = connectionManager;
         }
 
-        public RiakResponse<RiakDocument> Find(FindRequest request)
+        public RiakResponse<RiakDocument> Find(Action<FindRequest> predicate)
         {
             var stream = _connectionManager.GetNextConnection();
+            var request = new FindRequest();
+            predicate(request);
+
             var message = PackagedMessage.From(request, RequestMethod.Find);
             stream.Write(message, 0, message.Length);
 
-            var response = GetResponse<FindResponse>(stream);
+            var response = PackagedMessage.GetResponse<FindResponse>(stream);
             return response.Content.Count() == 0 || response.Content.FirstOrDefault() == null
                 ? RiakResponse<RiakDocument>.WithErrors("No documents found")
                 : RiakResponse<RiakDocument>.WithoutErrors(response.Content.First());
         }
 
-        public RiakResponse<RiakDocument> Persist(PersistRequest request)
+        public RiakResponse<RiakDocument> Persist(Action<PersistRequest> predicate)
         {
             var s = _connectionManager.GetNextConnection();
+            var request = new PersistRequest();
+            predicate(request);
+
             var message = PackagedMessage.From(request, RequestMethod.Perist);
             s.Write(message, 0, message.Length);
 
-            var response = GetResponse<PersistResponse>(s);
+            var response = PackagedMessage.GetResponse<PersistResponse>(s);
             return response.VectorClock == null
                 ? RiakResponse<RiakDocument>.WithErrors("unknown error on persist")
                 : RiakResponse<RiakDocument>.WithoutErrors(response.Contents.FirstOrDefault());
         }
 
-        public RiakResponse<bool> Detach(DetachRequest request)
+        public RiakResponse<bool> Detach(Action<DetachRequest> predicate)
         {
             var s = _connectionManager.GetNextConnection();
+            var request = new DetachRequest();
+            predicate(request);
+
             var message = PackagedMessage.From(request, RequestMethod.Detach);
             s.Write(message, 0, message.Length);
             return RiakResponse<bool>.WithoutErrors(true);
-        }
-
-        private static T GetResponse<T>(Stream stream) where T : new()
-        {
-            // Get the length of the stream.
-            var length = new byte[4];
-            stream.Read(length, 0, 4);
-            var size = BitConverter.ToInt32(length, 0);
-            size = IPAddress.NetworkToHostOrder(size);
-            
-            if (size == 1) return new T();
-
-            // use this to figure out what type to deserialize 
-            var method = stream.ReadByte();
-
-            var receipt = new byte[size - 1];
-            stream.Read(receipt, 0, size - 1);
-
-            return Serializer.Deserialize<T>(new MemoryStream(receipt));
         }
     }
 }

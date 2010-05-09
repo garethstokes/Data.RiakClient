@@ -3,7 +3,7 @@ using System.Data.RiakClient.Models;
 using riak.net.specs.Helpers;
 namespace riak.net.specs
 {
-    [TestFixure]
+    [TestFixture]
     public class PackagedMessageSpecs
     {
         [Test]

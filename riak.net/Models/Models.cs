@@ -35,23 +35,6 @@ namespace System.Data.RiakClient
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RpbListBucketsResp")]
-  public partial class RpbListBucketsResp : global::ProtoBuf.IExtensible
-  {
-    public RpbListBucketsResp() {}
-    
-    private readonly global::System.Collections.Generic.List<byte[]> _buckets = new global::System.Collections.Generic.List<byte[]>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"buckets", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<byte[]> buckets
-    {
-      get { return _buckets; }
-    }
-  
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RpbListKeysReq")]
   public partial class RpbListKeysReq : global::ProtoBuf.IExtensible
   {

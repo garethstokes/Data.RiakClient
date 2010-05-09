@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ObjectHelpers.cs" />
+    <Compile Include="Models\ListBucketsResponse.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\DetachRequest.cs" />
     <Compile Include="Models\ResponseMethod.cs" />
@@ -57,8 +58,11 @@
     <Compile Include="Models\RequestMethod.cs" />
     <Compile Include="Models\RiakResponse.cs" />
     <Compile Include="Models\RiakResponseCode.cs" />
-    <Compile Include="PackagedMessage.cs" />
-    <Compile Include="RiakRepository.cs" />
+    <Compile Include="Models\PackagedMessage.cs" />
+    <Compile Include="RiakBucketRepository.cs" />
+    <Compile Include="RiakConnection.cs" />
+    <Compile Include="RiakConnectionManager.cs" />
+    <Compile Include="RiakDocumentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

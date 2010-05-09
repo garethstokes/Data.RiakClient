@@ -29,6 +29,12 @@ namespace System.Data.RiakClient
             return client.GetStream();
         }
 
-        public static RiakConnectionManager FromConfiguration { get; }
+        public static RiakConnectionManager FromConfiguration 
+        { 
+            get
+            {
+                return new RiakConnectionManager();
+            }
+        }
     }
 }

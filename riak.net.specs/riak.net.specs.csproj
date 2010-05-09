@@ -48,11 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RiakBucketRepositorySpecs.cs" />
     <Compile Include="Helpers\RiakConnectionSpecHelpers.cs" />
     <Compile Include="PackagedMessageSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RiakConnectionSpecs.cs" />
-    <Compile Include="TestFixure.cs" />
+    <Compile Include="RiakDocumentRepositorySpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\riak.net\riak.net.csproj">
@@ -60,7 +60,6 @@
       <Name>riak.net</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
