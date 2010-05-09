@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace System.Data.RiakClient.Models
 {
     [Serializable, ProtoContract(Name = @"RpbGetReq")]
-    public class RiakFindRequest : IExtensible
+    public class FindRequest : IExtensible
     {
         private byte[] _bucket;
         [ProtoMember(1, IsRequired = true, Name = @"bucket", DataFormat = DataFormat.Default)]
@@ -29,8 +29,9 @@ namespace System.Data.RiakClient.Models
             get { return _r; }
             set { _r = value; }
         }
-        private global::ProtoBuf.IExtension extensionObject;
-        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-        { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+
+        private IExtension extensionObject;
+        IExtension IExtensible.GetExtensionObject(bool createIfMissing)
+        { return Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
     }
 }

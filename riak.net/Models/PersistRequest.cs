@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace System.Data.RiakClient.Models
 {
     [Serializable, ProtoContract(Name = @"RpbPutReq")]
-    public class RiakPersistRequest : IExtensible
+    public class PersistRequest : IExtensible
     {
         private byte[] _bucket;
         [ProtoMember(1, IsRequired = true, Name = @"bucket", DataFormat = DataFormat.Default)]

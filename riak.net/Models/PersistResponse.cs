@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using ProtoBuf;
 
 namespace System.Data.RiakClient.Models
 {
     [Serializable, ProtoContract(Name = @"RpbPutResp")]
-    public class RiakPutResponse : IExtensible
+    public class PersistResponse : IExtensible
     {
         private readonly List<RiakDocument> _contents = new List<RiakDocument>();
         [ProtoMember(1, Name = @"contents", DataFormat = DataFormat.Default)]

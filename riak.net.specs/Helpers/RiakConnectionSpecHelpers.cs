@@ -4,36 +4,37 @@ using System.Data.RiakClient.Helpers;
 
 namespace riak.net.specs.Helpers
 {
-    public static class RiakConnectionSpecHelpers
+    public static class SpecHelpers
     {
-        public static RiakPersistRequest GetPersistRequest(this RiakConnectionSpecs specs)
+        public static PersistRequest GetPersistRequest()
         {
-            return new RiakPersistRequest {
+            return new PersistRequest {
                 Bucket = Encoding.UTF8.GetBytes("test_bucket"),
                 Key = Encoding.UTF8.GetBytes("test_key"),
+                ReturnBody = true,
                 Content = new RiakDocument {
                     Value = Encoding.UTF8.GetBytes("this is a test")
                 }
             };
         }
 
-        public static RiakFindRequest GetFindRequest(this RiakConnectionSpecs specs)
+        public static FindRequest GetFindRequest()
         {
-            return new RiakFindRequest {
+            return new FindRequest {
                 Bucket = "test".GetBytes(),
                 Key = "123".GetBytes()
             };
         }
 
-        public static RiakDetachRequest GetDetachRequest(this RiakConnectionSpecs specs)
+        public static DetachRequest GetDetachRequest()
         {
-            return new RiakDetachRequest {
+            return new DetachRequest {
                 Bucket = "test".GetBytes(),
                 Key = "123".GetBytes()
             };
         }
 
-        public static RiakDocument GetTestDocument(this RiakConnectionSpecs specs)
+        public static RiakDocument GetTestDocument()
         {
             return new RiakDocument {
                     Value = Encoding.UTF8.GetBytes("this is a test"),

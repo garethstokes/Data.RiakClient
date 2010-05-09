@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Data.RiakClient;
 using riak.net.specs.Helpers;
+using System.Data.RiakClient.Models;
 
 namespace riak.net.specs
 {
@@ -8,56 +9,61 @@ namespace riak.net.specs
     public class RiakConnectionSpecs
     {
         [Test]
-        public void ShouldPackageMessageCorrectly()
+        public void ShouldPersistDocumentWithReturedDocument()
         {
             // Arrange.
-            var riakConnection = new RiakConnection("", 0);
+            var riakConnection = new RiakRepository("192.168.0.188", 8087);
 
             // Act.
-            var message = riakConnection.PackageMessageFrom(this.GetPersistRequest(), 11);
+            var response = riakConnection.Persist(SpecHelpers.GetPersistRequest());
 
             // Assert.
-            Assert.IsNotNull(message);
-            Assert.IsTrue(message.Length == 46);
+            Assert.IsTrue(response.ResponseCode == RiakResponseCode.Successful);
+            Assert.IsNotNull(response.Result);
         }
 
         [Test]
-        public void ShouldPersistDocument()
+        public void ShouldPersistDocumentWithoutReturedDocument()
         {
             // Arrange.
-            var riakConnection = new RiakConnection("192.168.0.188", 8087);
+            var riakConnection = new RiakRepository("192.168.0.188", 8087);
+            var request = SpecHelpers.GetPersistRequest();
+            request.ReturnBody = false;
 
             // Act.
-            var key = riakConnection.Persist(this.GetPersistRequest());
+            var response = riakConnection.Persist(request);
 
             // Assert.
-            Assert.IsNotNullOrEmpty(key);
+            Assert.IsTrue(response.ResponseCode == RiakResponseCode.Successful);
+            Assert.IsNull(response.Result);
         }
 
         [Test]
         public void ShouldFindDocument()
         {
             // Arrange.
-            var riakConnection = new RiakConnection("192.168.0.188", 8087);
+            var riakConnection = new RiakRepository("192.168.0.188", 8087);
 
             // Act.
-            var document = riakConnection.Find(this.GetFindRequest());
+            var response = riakConnection.Find(SpecHelpers.GetFindRequest());
 
             // Assert.
-            Assert.True(document.Value.Length > 0);
+            Assert.IsTrue(response.ResponseCode == RiakResponseCode.Successful);
+            Assert.IsNotNull(response.Result);
         }
 
         [Test]
         public void ShouldDetachDocument()
         {
             // Arrange.
-            var riakConnection = new RiakConnection("192.168.0.188", 8087);
+            var riakConnection = new RiakRepository("192.168.0.188", 8087);
 
             // Act.
-            var response = riakConnection.Detach(this.GetDetachRequest());
+            var response = riakConnection.Detach(SpecHelpers.GetDetachRequest());
 
             // Assert.
-            Assert.IsTrue(response);
+            Assert.IsTrue(response.ResponseCode == RiakResponseCode.Successful);
+            Assert.IsTrue(response.Result);
         }
     }
 }

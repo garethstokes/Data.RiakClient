@@ -45,15 +45,20 @@
   <ItemGroup>
     <Compile Include="Helpers\ObjectHelpers.cs" />
     <Compile Include="Models\Models.cs" />
-    <Compile Include="Models\RiakDeleteRequest.cs" />
+    <Compile Include="Models\DetachRequest.cs" />
+    <Compile Include="Models\ResponseMethod.cs" />
     <Compile Include="Models\RiakDocument.cs" />
-    <Compile Include="Models\RiakGetRequest.cs" />
-    <Compile Include="Models\RiakGetResponse.cs" />
+    <Compile Include="Models\FindRequest.cs" />
+    <Compile Include="Models\FindResponse.cs" />
     <Compile Include="Models\RiakLink.cs" />
     <Compile Include="Models\RiakPair.cs" />
-    <Compile Include="Models\RiakPutRequest.cs" />
-    <Compile Include="Models\RiakPutResponse.cs" />
-    <Compile Include="RiakConnection.cs" />
+    <Compile Include="Models\PersistRequest.cs" />
+    <Compile Include="Models\PersistResponse.cs" />
+    <Compile Include="Models\RequestMethod.cs" />
+    <Compile Include="Models\RiakResponse.cs" />
+    <Compile Include="Models\RiakResponseCode.cs" />
+    <Compile Include="PackagedMessage.cs" />
+    <Compile Include="RiakRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
