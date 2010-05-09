@@ -25,7 +25,7 @@ namespace System.Data.RiakClient
 
         public RiakResponse<string> FindClientId()
         {
-            var r = Connection.WriteWithoutRequestBody(new byte[] {}, RequestMethod.GetClientId);
+            var r = Connection.WriteWithoutRequestBody(new byte[] {}, RequestMethod.FindClientId);
             return r.ResponseCode == RiakResponseCode.Failed 
                 ? RiakResponse<string>.WithErrors(r.Result.DecodeToString(), r.Messages) 
                 : RiakResponse<string>.WithoutErrors(r.Result.DecodeToString());
