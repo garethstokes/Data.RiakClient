@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net.Sockets;
 using System.IO;
 using ProtoBuf;
 using System.Net;
@@ -9,18 +8,16 @@ namespace System.Data.RiakClient
 {
     public class RiakDocumentRepository
     {
-        private readonly string _host;
-        private readonly int _port;
+        private RiakConnectionManager _connectionManager;
 
-        public RiakDocumentRepository(string host, int port)
+        public RiakDocumentRepository(RiakConnectionManager connectionManager)
         {
-            _host = host;
-            _port = port;
+            _connectionManager = connectionManager;
         }
 
         public RiakResponse<RiakDocument> Find(FindRequest request)
         {
-            var stream = GetConnectionStream();
+            var stream = _connectionManager.GetNextConnection();
             var message = PackagedMessage.From(request, RequestMethod.Find);
             stream.Write(message, 0, message.Length);
 
@@ -32,7 +29,7 @@ namespace System.Data.RiakClient
 
         public RiakResponse<RiakDocument> Persist(PersistRequest request)
         {
-            var s = GetConnectionStream();
+            var s = _connectionManager.GetNextConnection();
             var message = PackagedMessage.From(request, RequestMethod.Perist);
             s.Write(message, 0, message.Length);
 
@@ -44,13 +41,13 @@ namespace System.Data.RiakClient
 
         public RiakResponse<bool> Detach(DetachRequest request)
         {
-            var s = GetConnectionStream();
+            var s = _connectionManager.GetNextConnection();
             var message = PackagedMessage.From(request, RequestMethod.Detach);
             s.Write(message, 0, message.Length);
             return RiakResponse<bool>.WithoutErrors(true);
         }
 
-        private T GetResponse<T>(Stream stream) where T : new()
+        private static T GetResponse<T>(Stream stream) where T : new()
         {
             // Get the length of the stream.
             var length = new byte[4];
@@ -67,12 +64,6 @@ namespace System.Data.RiakClient
             stream.Read(receipt, 0, size - 1);
 
             return Serializer.Deserialize<T>(new MemoryStream(receipt));
-        }
-
-        private Stream GetConnectionStream()
-        {
-            var client = new TcpClient(_host, _port);
-            return client.GetStream();
         }
     }
 }
