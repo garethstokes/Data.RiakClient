@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 using System.Net.Sockets;
 
 namespace System.Data.RiakClient.Models
@@ -11,17 +7,27 @@ namespace System.Data.RiakClient.Models
     {
         public int Port { get; set; }
         public string Host { get; set; }
+        private Stream _stream;
 
         public Stream Stream
         {
-            get
+            get { return _stream ?? (_stream = new TcpClient(Host, Port).GetStream()); }
+        }
+
+        public RiakResponse<T> Read<T>() where T : new()
+        {
+            try
             {
-                var client = new TcpClient(Host, Port);
-                return client.GetStream();
+                var r = PackagedMessage.GetResponse<T>(_stream);
+                return RiakResponse<T>.WithoutErrors(r);
+            }
+            catch (SocketException e)
+            {
+                return RiakResponse<T>.WithErrors("Could not establish connection", e.Message);
             }
         }
 
-        public RiakResponse<R> Write<T,R>(T request, RequestMethod method) where R : new()
+        public RiakResponse<T> Write<T>(T request, RequestMethod method)
         {
             try
             {
@@ -30,10 +36,10 @@ namespace System.Data.RiakClient.Models
             }
             catch (SocketException e)
             {
-                return RiakResponse<R>.WithErrors(new R(), "Could not establish connection", e.Message);
+                return RiakResponse<T>.WithErrors(request, "Could not establish connection", e.Message);
             }
 
-            return RiakResponse<R>.WithoutErrors(new R());
+            return RiakResponse<T>.WithoutErrors(request);
         }
 
         public RiakResponse<TR> WriteWithoutRequestBody<TR>(TR defaultValue, RequestMethod method)

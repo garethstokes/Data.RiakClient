@@ -17,43 +17,60 @@ namespace System.Data.RiakClient
 
         public RiakResponse<RiakDocument> Find(Action<FindRequest> predicate)
         {
-            var stream = _connectionManager.GetNextConnectionStream();
+            var connection = _connectionManager.GetNextConnection();
             var request = new FindRequest();
             predicate(request);
 
-            var message = PackagedMessage.From(request, RequestMethod.Find);
-            stream.Write(message, 0, message.Length);
+            var r = connection.Write(request, RequestMethod.Find);
+            if (r.ResponseCode == RiakResponseCode.Failed)
+            {
+                return RiakResponse<RiakDocument>.WithErrors(r.Messages);
+            }
 
-            var response = PackagedMessage.GetResponse<FindResponse>(stream);
-            return response.Content.Count() == 0 || response.Content.FirstOrDefault() == null
+            var response = connection.Read<FindResponse>();
+            if (response.ResponseCode == RiakResponseCode.Failed)
+            {
+                return RiakResponse<RiakDocument>.WithErrors(r.Messages);
+            }
+
+            return response.Result.Content.Count() == 0 || response.Result.Content.FirstOrDefault() == null
                 ? RiakResponse<RiakDocument>.WithErrors("No documents found")
-                : RiakResponse<RiakDocument>.WithoutErrors(response.Content.First());
+                : RiakResponse<RiakDocument>.WithoutErrors(response.Result.Content.First());
         }
 
         public RiakResponse<RiakDocument> Persist(Action<PersistRequest> predicate)
         {
-            var s = _connectionManager.GetNextConnectionStream();
+            var connection = _connectionManager.GetNextConnection();
             var request = new PersistRequest();
             predicate(request);
 
-            var message = PackagedMessage.From(request, RequestMethod.Perist);
-            s.Write(message, 0, message.Length);
+            var r = connection.Write(request, RequestMethod.Perist);
+            if (r.ResponseCode == RiakResponseCode.Failed)
+            {
+                return RiakResponse<RiakDocument>.WithErrors(r.Messages);
+            }
 
-            var response = PackagedMessage.GetResponse<PersistResponse>(s);
+            var response = connection.Read<PersistResponse>();
+            if (response.ResponseCode == RiakResponseCode.Failed)
+            {
+                return RiakResponse<RiakDocument>.WithErrors(r.Messages);
+            }
+
             return response.VectorClock == null
-                ? RiakResponse<RiakDocument>.WithErrors("unknown error on persist")
-                : RiakResponse<RiakDocument>.WithoutErrors(response.Contents.FirstOrDefault());
+                ? RiakResponse<RiakDocument>.WithErrors("Connection was successful but persist failed")
+                : RiakResponse<RiakDocument>.WithoutErrors(response.Result.Contents.FirstOrDefault());
         }
 
         public RiakResponse<bool> Detach(Action<DetachRequest> predicate)
         {
-            var s = _connectionManager.GetNextConnectionStream();
+            var connection = _connectionManager.GetNextConnection();
             var request = new DetachRequest();
             predicate(request);
 
-            var message = PackagedMessage.From(request, RequestMethod.Detach);
-            s.Write(message, 0, message.Length);
-            return RiakResponse<bool>.WithoutErrors(true);
+            var r = connection.Write(request, RequestMethod.Detach);
+            return r.ResponseCode == RiakResponseCode.Failed 
+                ? RiakResponse<bool>.WithErrors(false, r.Messages) 
+                : RiakResponse<bool>.WithoutErrors(true);
         }
     }
 }

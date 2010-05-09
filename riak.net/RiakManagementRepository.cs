@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.RiakClient.Models;
+﻿using System.Data.RiakClient.Models;
 using System.Data.RiakClient.Helpers;
 
 namespace System.Data.RiakClient

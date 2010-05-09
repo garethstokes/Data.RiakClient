@@ -22,9 +22,9 @@ namespace System.Data.RiakClient
             return c;
         }
 
-        public Stream GetNextConnectionStream()
+        public RiakConnection GetNextConnection()
         {
-            return _connections.First().Stream;
+            return _connections.First();
         }
 
         public static RiakConnectionManager FromConfiguration 

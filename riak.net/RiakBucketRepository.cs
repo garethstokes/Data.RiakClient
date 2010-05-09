@@ -15,15 +15,20 @@ namespace System.Data.RiakClient
 
         public RiakResponse<string[]> ListBuckets()
         {
-            var s = _connectionManager.GetNextConnectionStream();
-            
-            var message = PackagedMessage.JustHeader(RequestMethod.ListBuckets);
-            s.Write(message, 0, message.Length);
+            var connection = _connectionManager.GetNextConnection();
+            var r = connection.WriteWithoutRequestBody(new string[] {}, RequestMethod.ListBuckets);
+            if (r.ResponseCode == RiakResponseCode.Failed)
+            {
+                return RiakResponse<string[]>.WithErrors(r.Messages);
+            }
 
-            var response = PackagedMessage.GetResponse<ListBucketsResponse>(s);
-            return response.Buckets.Count() == 0
-                ? RiakResponse<string[]>.WithErrors("No buckets")
-                : RiakResponse<string[]>.WithoutErrors(response.Buckets.Select(x => x.DecodeToString()).ToArray());
+            var response = connection.Read<ListBucketsResponse>();
+            return response.ResponseCode == RiakResponseCode.Failed || response.Result.Buckets.Count() == 0
+                ? RiakResponse<string[]>.WithErrors("No buckets", response.Messages.First())
+                : RiakResponse<string[]>.WithoutErrors(response.Result
+                                                               .Buckets
+                                                               .Select(x => x.DecodeToString())
+                                                               .ToArray());
         }
     }
 }
