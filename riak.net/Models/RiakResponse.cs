@@ -24,5 +24,15 @@
                 Messages = messages
             };
         }
+
+        public static RiakResponse<T> WithErrors(T result, params string[] messages)
+        {
+            return new RiakResponse<T>
+            {
+                ResponseCode = RiakResponseCode.Successful,
+                Messages = messages,
+                Result = result
+            };
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace riak.net.specs
 
             // Assert.
             Assert.IsNotNull(message);
-            Assert.IsTrue(message.Length == 46);
+            Assert.IsTrue(message.Length == 48);
         }
     }
 }

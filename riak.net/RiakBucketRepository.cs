@@ -15,7 +15,7 @@ namespace System.Data.RiakClient
 
         public RiakResponse<string[]> ListBuckets()
         {
-            var s = _connectionManager.GetNextConnection();
+            var s = _connectionManager.GetNextConnectionStream();
             
             var message = PackagedMessage.JustHeader(RequestMethod.ListBuckets);
             s.Write(message, 0, message.Length);

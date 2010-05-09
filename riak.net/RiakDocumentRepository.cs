@@ -17,7 +17,7 @@ namespace System.Data.RiakClient
 
         public RiakResponse<RiakDocument> Find(Action<FindRequest> predicate)
         {
-            var stream = _connectionManager.GetNextConnection();
+            var stream = _connectionManager.GetNextConnectionStream();
             var request = new FindRequest();
             predicate(request);
 
@@ -32,7 +32,7 @@ namespace System.Data.RiakClient
 
         public RiakResponse<RiakDocument> Persist(Action<PersistRequest> predicate)
         {
-            var s = _connectionManager.GetNextConnection();
+            var s = _connectionManager.GetNextConnectionStream();
             var request = new PersistRequest();
             predicate(request);
 
@@ -47,7 +47,7 @@ namespace System.Data.RiakClient
 
         public RiakResponse<bool> Detach(Action<DetachRequest> predicate)
         {
-            var s = _connectionManager.GetNextConnection();
+            var s = _connectionManager.GetNextConnectionStream();
             var request = new DetachRequest();
             predicate(request);
 

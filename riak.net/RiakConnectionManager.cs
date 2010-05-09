@@ -22,11 +22,9 @@ namespace System.Data.RiakClient
             return c;
         }
 
-        public Stream GetNextConnection()
+        public Stream GetNextConnectionStream()
         {
-            var connection = _connections.First();
-            var client = new TcpClient(connection.Host, connection.Port);
-            return client.GetStream();
+            return _connections.First().Stream;
         }
 
         public static RiakConnectionManager FromConfiguration 
