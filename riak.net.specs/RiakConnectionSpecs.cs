@@ -12,7 +12,7 @@ namespace riak.net.specs
         public void ShouldPersistDocumentWithReturedDocument()
         {
             // Arrange.
-            var riakConnection = new RiakRepository("192.168.0.188", 8087);
+            var riakConnection = new RiakDocumentRepository("192.168.0.188", 8087);
 
             // Act.
             var response = riakConnection.Persist(SpecHelpers.GetPersistRequest());
@@ -26,7 +26,7 @@ namespace riak.net.specs
         public void ShouldPersistDocumentWithoutReturedDocument()
         {
             // Arrange.
-            var riakConnection = new RiakRepository("192.168.0.188", 8087);
+            var riakConnection = new RiakDocumentRepository("192.168.0.188", 8087);
             var request = SpecHelpers.GetPersistRequest();
             request.ReturnBody = false;
 
@@ -42,7 +42,7 @@ namespace riak.net.specs
         public void ShouldFindDocument()
         {
             // Arrange.
-            var riakConnection = new RiakRepository("192.168.0.188", 8087);
+            var riakConnection = new RiakDocumentRepository("192.168.0.188", 8087);
 
             // Act.
             var response = riakConnection.Find(SpecHelpers.GetFindRequest());
@@ -56,7 +56,7 @@ namespace riak.net.specs
         public void ShouldDetachDocument()
         {
             // Arrange.
-            var riakConnection = new RiakRepository("192.168.0.188", 8087);
+            var riakConnection = new RiakDocumentRepository("192.168.0.188", 8087);
 
             // Act.
             var response = riakConnection.Detach(SpecHelpers.GetDetachRequest());

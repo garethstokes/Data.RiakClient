@@ -2,18 +2,17 @@
 using System.Net.Sockets;
 using System.IO;
 using ProtoBuf;
-using System.Data.RiakClient.Helpers;
 using System.Net;
 using System.Data.RiakClient.Models;
 
 namespace System.Data.RiakClient
 {
-    public class RiakRepository
+    public class RiakDocumentRepository
     {
         private readonly string _host;
         private readonly int _port;
 
-        public RiakRepository(string host, int port)
+        public RiakDocumentRepository(string host, int port)
         {
             _host = host;
             _port = port;
