@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "riak.net", "riak.net\riak.net.csproj", "{FACA3A85-BBF2-4546-94F0-B9DB4A1F1D4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "riak.net.specs", "riak.net.specs\riak.net.specs.csproj", "{67407C6B-1133-4EB5-9331-B7A91FD64659}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{4644D44F-4596-4CFC-857E-9419E411B1DF}"
+	ProjectSection(SolutionItems) = preProject
+		resources\nunit.framework.dll = resources\nunit.framework.dll
+		resources\protobuf-net.dll = resources\protobuf-net.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "protocols", "protocols", "{64F5C842-DEF2-4A03-90F0-1297EF85D0A6}"
+	ProjectSection(SolutionItems) = preProject
+		protocols\RiakProtocolBuffers.proto = protocols\RiakProtocolBuffers.proto
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FACA3A85-BBF2-4546-94F0-B9DB4A1F1D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FACA3A85-BBF2-4546-94F0-B9DB4A1F1D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FACA3A85-BBF2-4546-94F0-B9DB4A1F1D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FACA3A85-BBF2-4546-94F0-B9DB4A1F1D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67407C6B-1133-4EB5-9331-B7A91FD64659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67407C6B-1133-4EB5-9331-B7A91FD64659}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67407C6B-1133-4EB5-9331-B7A91FD64659}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67407C6B-1133-4EB5-9331-B7A91FD64659}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

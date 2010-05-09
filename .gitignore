@@ -1,0 +1,7 @@
+*.user
+*.suo
+_ReSharper.riak.net/*
+**/*.user
+**/bin/*
+**/obj/*
+**/Properties/*
