@@ -33,47 +33,4 @@ namespace System.Data.RiakClient
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RpbListKeysReq")]
-  public partial class RpbListKeysReq : global::ProtoBuf.IExtensible
-  {
-    public RpbListKeysReq() {}
-    
-    private byte[] _bucket;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"bucket", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public byte[] bucket
-    {
-      get { return _bucket; }
-      set { _bucket = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RpbListKeysResp")]
-  public partial class RpbListKeysResp : global::ProtoBuf.IExtensible
-  {
-    public RpbListKeysResp() {}
-    
-    private readonly global::System.Collections.Generic.List<byte[]> _keys = new global::System.Collections.Generic.List<byte[]>();
-    [global::ProtoBuf.ProtoMember(1, Name=@"keys", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<byte[]> keys
-    {
-      get { return _keys; }
-    }
-  
-
-    private bool _done = default(bool);
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"done", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(default(bool))]
-    public bool done
-    {
-      get { return _done; }
-      set { _done = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
 }

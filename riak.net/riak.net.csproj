@@ -47,6 +47,8 @@
     <Compile Include="Models\ServerInfo.cs" />
     <Compile Include="ProtoModels\GetServerInformationResponse.cs" />
     <Compile Include="ProtoModels\ListBucketsResponse.cs" />
+    <Compile Include="ProtoModels\ListKeysRequest.cs" />
+    <Compile Include="ProtoModels\ListKeysResposne.cs" />
     <Compile Include="ProtoModels\Models.cs" />
     <Compile Include="ProtoModels\DetachRequest.cs" />
     <Compile Include="Models\ResponseMethod.cs" />
@@ -64,8 +66,8 @@
     <Compile Include="Models\RiakResponseCode.cs" />
     <Compile Include="Models\PackagedMessage.cs" />
     <Compile Include="RiakBucketRepository.cs" />
-    <Compile Include="RiakConnection.cs" />
-    <Compile Include="RiakConnectionManager.cs" />
+    <Compile Include="Models\RiakConnection.cs" />
+    <Compile Include="Models\RiakConnectionManager.cs" />
     <Compile Include="RiakDocumentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RiakManagementRepository.cs" />

@@ -29,5 +29,10 @@ namespace System.Data.RiakClient
                                                                .Select(x => x.DecodeToString())
                                                                .ToArray());
         }
+
+        public RiakResponse<string[]> ListKeysFor(ListKeysRequest request)
+        {
+            return null;
+        }
     }
 }
