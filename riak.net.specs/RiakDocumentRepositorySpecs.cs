@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System.Data.RiakClient;
-using System.Data.RiakClient.Helpers;
 using System;
 using System.Data.RiakClient.Models;
 
@@ -13,18 +12,18 @@ namespace riak.net.specs
         public void ShouldPersistDocumentWithReturedDocument()
         {
             // Arrange.
-            var connectionManager = RiakConnectionManager.FromConfiguration;
-            var riakConnection = new RiakDocumentRepository(connectionManager);
+            var connectionManager = new RiakConnectionManager();
             connectionManager.AddConnection("192.168.0.188", 8087);
-
+            var riakConnection = new RiakDocumentRepository(connectionManager);
+            
             // Act.
             var response = riakConnection.Persist(request => {
                 request.Bucket = "test_bucket".GetBytes();
                 request.Key = "test_key".GetBytes();
                 request.ReturnBody = true;
                 request.Content = new RiakDocument {
-                        Value = "this is a test".GetBytes()
-                    };
+                    Value = "this is a test".GetBytes()
+                };
             });
 
             // Assert.
@@ -63,8 +62,8 @@ namespace riak.net.specs
             var riakConnection = new RiakDocumentRepository(connectionManager);
             connectionManager.AddConnection("192.168.0.188", 8087);
 
-            string bucket = Guid.NewGuid().ToString();
-            string key = Guid.NewGuid().ToString();
+            var bucket = Guid.NewGuid().ToString();
+            var key = Guid.NewGuid().ToString();
 
             riakConnection.Persist(x => {
                 x.Bucket = bucket.GetBytes();

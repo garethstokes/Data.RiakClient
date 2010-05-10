@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using ProtoBuf;
-using System.Data.RiakClient.Helpers;
 using System.Net;
 using System.Linq;
 

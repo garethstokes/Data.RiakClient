@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.IO;
 
-namespace System.Data.RiakClient.Helpers
+namespace System.Data.RiakClient
 {
     public static class ObjectHelpers
     {

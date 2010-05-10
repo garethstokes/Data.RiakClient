@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using System.Data.RiakClient;
 using System.Data.RiakClient.Models;
-using System.Data.RiakClient.Helpers;
 
 namespace riak.net.specs.Helpers
 {

@@ -1,5 +1,4 @@
 ﻿using System.Data.RiakClient.Models;
-using System.Data.RiakClient.Helpers;
 
 namespace System.Data.RiakClient
 {
