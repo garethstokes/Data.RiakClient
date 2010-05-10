@@ -31,5 +31,22 @@ namespace System.Data.RiakClient
                         : RiakResponse<string>.WithoutErrors(response.Result.ClientId.DecodeToString());
                 });
         }
+
+        public RiakResponse<ServerInfo> GetServerInformation()
+        {
+            var r = Connection.WriteWithoutRequestBody(new byte[] { }, RequestMethod.ServerInfo);
+
+            return r.ResponseCode == RiakResponseCode.Failed
+                ? RiakResponse<ServerInfo>.WithErrors(r.Messages)
+                : RiakResponse<ServerInfo>.ReadResponse(() => {
+                    var response = Connection.Read<GetServerInformationResponse>();
+                    return response.ResponseCode == RiakResponseCode.Failed
+                               ? RiakResponse<ServerInfo>.WithErrors(r.Messages)
+                               : RiakResponse<ServerInfo>.WithoutErrors(new ServerInfo {
+                                    Node = response.Result.Node.DecodeToString(),
+                                    ServerVersion = response.Result.ServerVersion.DecodeToString()
+                                });
+                });
+        }
     }
 }

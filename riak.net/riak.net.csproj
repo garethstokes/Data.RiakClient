@@ -44,18 +44,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ObjectHelpers.cs" />
-    <Compile Include="Models\ListBucketsResponse.cs" />
-    <Compile Include="Models\Models.cs" />
-    <Compile Include="Models\DetachRequest.cs" />
+    <Compile Include="Models\ServerInfo.cs" />
+    <Compile Include="ProtoModels\GetServerInformationResponse.cs" />
+    <Compile Include="ProtoModels\ListBucketsResponse.cs" />
+    <Compile Include="ProtoModels\Models.cs" />
+    <Compile Include="ProtoModels\DetachRequest.cs" />
     <Compile Include="Models\ResponseMethod.cs" />
-    <Compile Include="Models\RiakClientId.cs" />
-    <Compile Include="Models\RiakDocument.cs" />
-    <Compile Include="Models\FindRequest.cs" />
-    <Compile Include="Models\FindResponse.cs" />
-    <Compile Include="Models\RiakLink.cs" />
-    <Compile Include="Models\RiakPair.cs" />
-    <Compile Include="Models\PersistRequest.cs" />
-    <Compile Include="Models\PersistResponse.cs" />
+    <Compile Include="ProtoModels\FindClientIdResponse.cs" />
+    <Compile Include="ProtoModels\RiakDocument.cs" />
+    <Compile Include="ProtoModels\FindRequest.cs" />
+    <Compile Include="ProtoModels\FindResponse.cs" />
+    <Compile Include="ProtoModels\RiakLink.cs" />
+    <Compile Include="ProtoModels\RiakPair.cs" />
+    <Compile Include="ProtoModels\PersistRequest.cs" />
+    <Compile Include="ProtoModels\PersistResponse.cs" />
     <Compile Include="Models\RequestMethod.cs" />
     <Compile Include="Models\RiakResponse.cs" />
     <Compile Include="Models\RiakResponseCode.cs" />
