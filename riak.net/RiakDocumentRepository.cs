@@ -1,7 +1,4 @@
 ﻿using System.Linq;
-using System.IO;
-using ProtoBuf;
-using System.Net;
 using System.Data.RiakClient.Models;
 
 namespace System.Data.RiakClient
@@ -15,12 +12,9 @@ namespace System.Data.RiakClient
             _connectionManager = connectionManager;
         }
 
-        public RiakResponse<RiakDocument> Find(Action<FindRequest> predicate)
+        public RiakResponse<RiakDocument> Find(FindRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
-            var request = new FindRequest();
-            predicate(request);
-
             var r = connection.Write(request, RequestMethod.Find);
             if (r.ResponseCode == RiakResponseCode.Failed)
             {
@@ -38,12 +32,16 @@ namespace System.Data.RiakClient
                 : RiakResponse<RiakDocument>.WithoutErrors(response.Result.Content.First());
         }
 
-        public RiakResponse<RiakDocument> Persist(Action<PersistRequest> predicate)
+        public RiakResponse<RiakDocument> Find(Action<FindRequest> predicate)
+        {
+            var request = new FindRequest();
+            predicate(request);
+            return Find(request);
+        }
+
+        public RiakResponse<RiakDocument> Persist(PersistRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
-            var request = new PersistRequest();
-            predicate(request);
-
             var r = connection.Write(request, RequestMethod.Perist);
             if (r.ResponseCode == RiakResponseCode.Failed)
             {
@@ -60,17 +58,28 @@ namespace System.Data.RiakClient
                 ? RiakResponse<RiakDocument>.WithErrors("Connection was successful but persist failed")
                 : RiakResponse<RiakDocument>.WithoutErrors(response.Result.Contents.FirstOrDefault());
         }
+        
+        public RiakResponse<RiakDocument> Persist(Action<PersistRequest> predicate)
+        {
+            var request = new PersistRequest();
+            predicate(request);
+            return Persist(request);
+        }
+
+        public RiakResponse<bool> Detach(DetachRequest request)
+        {
+            var connection = _connectionManager.GetNextConnection();
+            var r = connection.Write(request, RequestMethod.Detach);
+            return r.ResponseCode == RiakResponseCode.Failed
+                ? RiakResponse<bool>.WithErrors(false, r.Messages)
+                : RiakResponse<bool>.WithoutErrors(true);
+        }
 
         public RiakResponse<bool> Detach(Action<DetachRequest> predicate)
         {
-            var connection = _connectionManager.GetNextConnection();
             var request = new DetachRequest();
             predicate(request);
-
-            var r = connection.Write(request, RequestMethod.Detach);
-            return r.ResponseCode == RiakResponseCode.Failed 
-                ? RiakResponse<bool>.WithErrors(false, r.Messages) 
-                : RiakResponse<bool>.WithoutErrors(true);
+            return Detach(predicate);
         }
     }
 }
