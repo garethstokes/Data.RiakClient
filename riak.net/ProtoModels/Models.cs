@@ -76,21 +76,4 @@ namespace System.Data.RiakClient
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RpbSetClientIdReq")]
-  public partial class RpbSetClientIdReq : global::ProtoBuf.IExtensible
-  {
-    public RpbSetClientIdReq() {}
-    
-    private byte[] _client_id;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"client_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public byte[] client_id
-    {
-      get { return _client_id; }
-      set { _client_id = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
 }

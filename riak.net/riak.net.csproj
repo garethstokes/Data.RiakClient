@@ -51,6 +51,7 @@
     <Compile Include="ProtoModels\DetachRequest.cs" />
     <Compile Include="Models\ResponseMethod.cs" />
     <Compile Include="ProtoModels\FindClientIdResponse.cs" />
+    <Compile Include="ProtoModels\PersistClientIdResponse.cs" />
     <Compile Include="ProtoModels\RiakDocument.cs" />
     <Compile Include="ProtoModels\FindRequest.cs" />
     <Compile Include="ProtoModels\FindResponse.cs" />

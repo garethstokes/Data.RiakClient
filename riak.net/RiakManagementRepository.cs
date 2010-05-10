@@ -32,6 +32,14 @@ namespace System.Data.RiakClient
                 });
         }
 
+        public RiakResponse<string> PersistClientId(PersistClientIdRequest request)
+        {
+            var r = Connection.Write(request, RequestMethod.PersistClientId);
+            return r.ResponseCode == RiakResponseCode.Failed
+                ? RiakResponse<string>.WithErrors(r.Messages)
+                : RiakResponse<string>.WithoutErrors(request.ClientId.DecodeToString());
+        }
+
         public RiakResponse<ServerInfo> GetServerInformation()
         {
             var r = Connection.WriteWithoutRequestBody(new byte[] { }, RequestMethod.ServerInfo);
