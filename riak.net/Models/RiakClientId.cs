@@ -4,7 +4,7 @@ namespace System.Data.RiakClient.Models
 {
     [Serializable]
     [ProtoContract(Name = @"RpbGetClientIdResp")]
-    public class RiakClientIdResponse : IExtensible
+    public class FindClientIdResponse : IExtensible
     {
         private byte[] _clientId;
         

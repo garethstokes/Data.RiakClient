@@ -17,6 +17,11 @@
                 };
         }
 
+        public static RiakResponse<T> ReadResponse(Func<RiakResponse<T>> action)
+        {
+            return action();
+        }
+
         public static RiakResponse<T> WithErrors(params string[] messages)
         {
             return new RiakResponse<T> {
