@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RiakManagementRepositorySpecs.cs" />
     <Compile Include="RiakBucketRepositorySpecs.cs" />
     <Compile Include="Helpers\RiakConnectionSpecHelpers.cs" />
     <Compile Include="PackagedMessageSpecs.cs" />
