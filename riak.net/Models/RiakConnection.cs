@@ -31,7 +31,7 @@ namespace System.Data.RiakClient.Models
         {
             try
             {
-                var message = PackagedMessage.From(requestObject, RequestMethod.Ping);
+                var message = PackagedMessage.From(requestObject, method);
                 Stream.Write(message, 0, message.Length);
             }
             catch (SocketException e)
@@ -46,7 +46,7 @@ namespace System.Data.RiakClient.Models
         {
             try
             {
-                var message = PackagedMessage.JustHeader(RequestMethod.Ping);
+                var message = PackagedMessage.JustHeader(method);
                 Stream.Write(message, 0, message.Length);
             }
             catch (SocketException e)

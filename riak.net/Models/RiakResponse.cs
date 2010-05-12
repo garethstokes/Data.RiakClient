@@ -2,7 +2,10 @@
 {
     public sealed class RiakResponse<T>
     {
-        private RiakResponse(){}
+        private RiakResponse()
+        {
+            Messages = new string[]{};
+        }
 
         public string[] Messages { get; internal set; }
         public T Result { get; internal set; }

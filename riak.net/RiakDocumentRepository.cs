@@ -54,7 +54,7 @@ namespace System.Data.RiakClient
                 return RiakResponse<RiakDocument>.WithErrors(r.Messages);
             }
 
-            return response.VectorClock == null
+            return response.Result == null || response.Result.VectorClock == null
                 ? RiakResponse<RiakDocument>.WithErrors("Connection was successful but persist failed")
                 : RiakResponse<RiakDocument>.WithoutErrors(response.Result.Contents.FirstOrDefault());
         }
@@ -79,7 +79,7 @@ namespace System.Data.RiakClient
         {
             var request = new DetachRequest();
             predicate(request);
-            return Detach(predicate);
+            return Detach(request);
         }
     }
 }

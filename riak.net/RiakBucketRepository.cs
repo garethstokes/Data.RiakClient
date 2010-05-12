@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using System.Data.RiakClient.Models;
-
-using System.Data.RiakClient;
 using System.Collections.Generic;
 
 namespace System.Data.RiakClient
@@ -26,7 +24,7 @@ namespace System.Data.RiakClient
 
             var response = connection.Read<ListBucketsResponse>();
             return response.ResponseCode == RiakResponseCode.Failed || response.Result.Buckets.Count() == 0
-                ? RiakResponse<string[]>.WithErrors("No buckets", response.Messages.First())
+                ? RiakResponse<string[]>.WithErrors("No buckets", response.Messages.FirstOrDefault())
                 : RiakResponse<string[]>.WithoutErrors(response.Result
                                                                .Buckets
                                                                .Select(x => x.DecodeToString())

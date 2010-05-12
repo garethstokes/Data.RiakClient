@@ -68,14 +68,18 @@ namespace riak.net.specs
             riakConnection.Persist(x => {
                 x.Bucket = bucket.GetBytes();
                 x.Key = key.GetBytes();
-                x.ReturnBody = false;
+                x.ReturnBody = true;
+                x.Write = 1;
+                x.DW = 1;
                 x.Content = new RiakDocument{
+                    ContentType = "text/plain".GetBytes(),
                     Value = "this is a test".GetBytes()
                 };
             });
 
             // Act.
             var response = riakConnection.Find(x => {
+                x.ReadValue = 1;
                 x.Bucket = bucket.GetBytes();
                 x.Key = key.GetBytes();
             });
@@ -92,11 +96,28 @@ namespace riak.net.specs
             var connectionManager = RiakConnectionManager.FromConfiguration;
             var riakConnection = new RiakDocumentRepository(connectionManager);
             connectionManager.AddConnection("192.168.0.188", 8087);
-            
+
+            var bucket = Guid.NewGuid().ToString();
+            var key = Guid.NewGuid().ToString();
+
+            riakConnection.Persist(x =>
+            {
+                x.Bucket = bucket.GetBytes();
+                x.Key = key.GetBytes();
+                x.ReturnBody = true;
+                x.Write = 1;
+                x.DW = 1;
+                x.Content = new RiakDocument
+                {
+                    ContentType = "text/plain".GetBytes(),
+                    Value = "this is a test".GetBytes()
+                };
+            });
+
             // Act.
             var response = riakConnection.Detach(x => {
-                x.Bucket = "test".GetBytes();
-                x.Key = "123".GetBytes();
+                x.Bucket = bucket.GetBytes();
+                x.Key = key.GetBytes();
             });
 
             // Assert.
