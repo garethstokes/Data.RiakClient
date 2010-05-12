@@ -15,7 +15,7 @@ namespace System.Data.RiakClient
         public RiakResponse<RiakDocument> Find(FindRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
-            var r = connection.Write(request, RequestMethod.Find);
+            var r = connection.WriteWith(request, RequestMethod.Find);
             if (r.ResponseCode == RiakResponseCode.Failed)
             {
                 return RiakResponse<RiakDocument>.WithErrors(r.Messages);
@@ -42,7 +42,7 @@ namespace System.Data.RiakClient
         public RiakResponse<RiakDocument> Persist(PersistRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
-            var r = connection.Write(request, RequestMethod.Perist);
+            var r = connection.WriteWith(request, RequestMethod.Perist);
             if (r.ResponseCode == RiakResponseCode.Failed)
             {
                 return RiakResponse<RiakDocument>.WithErrors(r.Messages);
@@ -69,7 +69,7 @@ namespace System.Data.RiakClient
         public RiakResponse<bool> Detach(DetachRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
-            var r = connection.Write(request, RequestMethod.Detach);
+            var r = connection.WriteWith(request, RequestMethod.Detach);
             return r.ResponseCode == RiakResponseCode.Failed
                 ? RiakResponse<bool>.WithErrors(false, r.Messages)
                 : RiakResponse<bool>.WithoutErrors(true);

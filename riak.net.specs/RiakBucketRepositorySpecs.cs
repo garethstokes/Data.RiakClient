@@ -32,7 +32,7 @@ namespace riak.net.specs
             connectionManager.AddConnection("192.168.0.188", 8087);
 
             // Act.
-            var response = repository.ListBuckets();
+            var response = repository.ListKeysFor(new ListKeysRequest {Bucket = "test".GetBytes()});
 
             // Assert.
             Assert.IsTrue(response.ResponseCode == RiakResponseCode.Successful);

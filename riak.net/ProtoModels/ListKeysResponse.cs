@@ -6,7 +6,7 @@ namespace System.Data.RiakClient.Models
 {
     [Serializable]
     [ProtoContract(Name = @"RpbListKeysResp")]
-    public class RpbListKeysResp : IExtensible
+    public class ListKeysResponse : IExtensible
     {
         private readonly List<byte[]> _keys = new List<byte[]>();
         private bool _done = default(bool);

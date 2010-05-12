@@ -13,14 +13,14 @@ namespace System.Data.RiakClient
 
         public RiakResponse<bool> Ping()
         {
-            var response = Connection.WriteWithoutRequestBody(false, RequestMethod.Ping);
+            var response = Connection.WriteRequestWithoutBody(false, RequestMethod.Ping);
             if (response.ResponseCode == RiakResponseCode.Successful) response.Result = true;
             return response;
         }
 
         public RiakResponse<string> FindClientId()
         {
-            var r = Connection.WriteWithoutRequestBody(new byte[] {}, RequestMethod.FindClientId);
+            var r = Connection.WriteRequestWithoutBody(new byte[] {}, RequestMethod.FindClientId);
 
             return r.ResponseCode == RiakResponseCode.Failed
                 ? RiakResponse<string>.WithErrors(r.Messages)
@@ -34,7 +34,7 @@ namespace System.Data.RiakClient
 
         public RiakResponse<string> PersistClientId(PersistClientIdRequest request)
         {
-            var r = Connection.Write(request, RequestMethod.PersistClientId);
+            var r = Connection.WriteWith(request, RequestMethod.PersistClientId);
             return r.ResponseCode == RiakResponseCode.Failed
                 ? RiakResponse<string>.WithErrors(r.Messages)
                 : RiakResponse<string>.WithoutErrors(request.ClientId.DecodeToString());
@@ -42,7 +42,7 @@ namespace System.Data.RiakClient
 
         public RiakResponse<ServerInfo> GetServerInformation()
         {
-            var r = Connection.WriteWithoutRequestBody(new byte[] { }, RequestMethod.ServerInfo);
+            var r = Connection.WriteRequestWithoutBody(new byte[] { }, RequestMethod.ServerInfo);
 
             return r.ResponseCode == RiakResponseCode.Failed
                 ? RiakResponse<ServerInfo>.WithErrors(r.Messages)

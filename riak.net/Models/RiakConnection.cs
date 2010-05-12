@@ -27,22 +27,22 @@ namespace System.Data.RiakClient.Models
             }
         }
 
-        public RiakResponse<T> Write<T>(T request, RequestMethod method)
+        public RiakResponse<T> WriteWith<T>(T requestObject, RequestMethod method)
         {
             try
             {
-                var message = PackagedMessage.From(request, RequestMethod.Ping);
+                var message = PackagedMessage.From(requestObject, RequestMethod.Ping);
                 Stream.Write(message, 0, message.Length);
             }
             catch (SocketException e)
             {
-                return RiakResponse<T>.WithErrors(request, "Could not establish connection", e.Message);
+                return RiakResponse<T>.WithErrors(requestObject, "Could not establish connection", e.Message);
             }
 
-            return RiakResponse<T>.WithoutErrors(request);
+            return RiakResponse<T>.WithoutErrors(requestObject);
         }
 
-        public RiakResponse<TR> WriteWithoutRequestBody<TR>(TR defaultValue, RequestMethod method)
+        public RiakResponse<TR> WriteRequestWithoutBody<TR>(TR defaultValue, RequestMethod method)
         {
             try
             {

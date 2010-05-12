@@ -48,7 +48,7 @@
     <Compile Include="ProtoModels\GetServerInformationResponse.cs" />
     <Compile Include="ProtoModels\ListBucketsResponse.cs" />
     <Compile Include="ProtoModels\ListKeysRequest.cs" />
-    <Compile Include="ProtoModels\ListKeysResposne.cs" />
+    <Compile Include="ProtoModels\ListKeysResponse.cs" />
     <Compile Include="ProtoModels\Models.cs" />
     <Compile Include="ProtoModels\DetachRequest.cs" />
     <Compile Include="Models\ResponseMethod.cs" />
