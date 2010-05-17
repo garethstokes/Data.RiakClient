@@ -90,6 +90,53 @@ namespace riak.net.specs
         }
 
         [Test]
+        public void ShouldFindMultipleDocuments()
+        {
+            // Arrange.
+            var connectionManager = RiakConnectionManager.FromConfiguration;
+            var riakConnection = new RiakDocumentRepository(connectionManager);
+            connectionManager.AddConnection("192.168.0.188", 8087);
+
+            var bucket = Guid.NewGuid().ToString();
+            var key_1= Guid.NewGuid().ToString();
+            var key_2= Guid.NewGuid().ToString();
+
+            riakConnection.Persist(x => {
+                x.Bucket = bucket.GetBytes();
+                x.Key = key_1.GetBytes());
+                x.ReturnBody = true;
+                x.Write = 1;
+                x.DW = 1;
+                x.Content = new RiakDocument{
+                    ContentType = "text/plain".GetBytes(),
+                    Value = "this is a test".GetBytes()
+                };
+            });
+
+            riakConnection.Persist(x => {
+                x.Bucket = bucket.GetBytes();
+                x.Key = key_2.GetBytes();
+                x.ReturnBody = true;
+                x.Write = 1;
+                x.DW = 1;
+                x.Content = new RiakDocument{
+                    ContentType = "text/plain".GetBytes(),
+                    Value = "this is a test".GetBytes()
+                };
+            });
+
+            // Act.
+            var response = riakConnection.Find(new [] { key_1, key_2}, x => {
+                x.ReadValue = 1;
+                x.Bucket = bucket.GetBytes();
+            });
+
+            // Assert.
+            Assert.IsTrue(response.ResponseCode == RiakResponseCode.Successful);
+            Assert.IsNotNull(response.Result);
+        }
+
+        [Test]
         public void ShouldDetachDocument()
         {
             // Arrange.

@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{
 	ProjectSection(SolutionItems) = preProject
 		resources\nunit.framework.dll = resources\nunit.framework.dll
 		resources\protobuf-net.dll = resources\protobuf-net.dll
+		resources\SmartThreadPool.dll = resources\SmartThreadPool.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "protocols", "protocols", "{64F5C842-DEF2-4A03-90F0-1297EF85D0A6}"

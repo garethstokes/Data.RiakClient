@@ -6,24 +6,37 @@ namespace System.Data.RiakClient.Models
     [Serializable, ProtoContract(Name = @"RpbPutReq")]
     public class PersistRequest : IExtensible
     {
+        private byte[] _key;
         private byte[] _bucket;
-        [ProtoMember(1, IsRequired = true, Name = @"bucket", DataFormat = DataFormat.Default)]
+        private byte[] _vclock = null;
+        private RiakDocument _content;    
+        private uint _w = default(uint);
+        private bool _return_body = default(bool);
+        
+        [ProtoMember(1, 
+                     IsRequired = true, 
+                     Name = @"bucket", 
+                     DataFormat = DataFormat.Default)]
         public byte[] Bucket
         {
             get { return _bucket; }
             set { _bucket = value; }
         }
 
-        private byte[] _key;
-        [ProtoMember(2, IsRequired = true, Name = @"key", DataFormat = DataFormat.Default)]
+        [ProtoMember(2, 
+                     IsRequired = true, 
+                     Name = @"key", 
+                     DataFormat = DataFormat.Default)]
         public byte[] Key
         {
             get { return _key; }
             set { _key = value; }
         }
 
-        private byte[] _vclock = null;
-        [ProtoMember(3, IsRequired = false, Name = @"vclock", DataFormat =  DataFormat.Default)]
+        [ProtoMember(3, 
+                     IsRequired = false, 
+                     Name = @"vclock", 
+                     DataFormat =  DataFormat.Default)]
         [DefaultValue(null)]
         public byte[] VClock
         {
@@ -31,16 +44,22 @@ namespace System.Data.RiakClient.Models
             set { _vclock = value; }
         }
 
-        private RiakDocument _content;
-        [ProtoMember(4, IsRequired = true, Name = @"content", DataFormat =  DataFormat.Default)]
+
+        [ProtoMember(4,
+                     IsRequired = true,
+                     Name = @"content",
+                     DataFormat =  DataFormat.Default)]
         public RiakDocument Content
         {
             get { return _content; }
             set { _content = value; }
         }
 
-        private uint _w = default(uint);
-        [ProtoMember(5, IsRequired = false, Name = @"w", DataFormat =  DataFormat.TwosComplement)]
+
+        [ProtoMember(5, 
+                     IsRequired = false, 
+                     Name = @"w", 
+                     DataFormat =  DataFormat.TwosComplement)]
         [DefaultValue(default(uint))]
         public uint Write
         {
@@ -49,7 +68,10 @@ namespace System.Data.RiakClient.Models
         }
 
         private uint _dw = default(uint);
-        [ProtoMember(6, IsRequired = false, Name = @"dw", DataFormat =  DataFormat.TwosComplement)]
+        [ProtoMember(6, 
+                     IsRequired = false, 
+                     Name = @"dw", 
+                     DataFormat =  DataFormat.TwosComplement)]
         [DefaultValue(default(uint))]
         public uint DW
         {
@@ -57,8 +79,11 @@ namespace System.Data.RiakClient.Models
             set { _dw = value; }
         }
 
-        private bool _return_body = default(bool);
-        [ProtoMember(7, IsRequired = false, Name = @"return_body", DataFormat =  DataFormat.Default)]
+
+        [ProtoMember(7, 
+                     IsRequired = false, 
+                     Name = @"return_body", 
+                     DataFormat =  DataFormat.Default)]
         [DefaultValue(default(bool))]
         public bool ReturnBody
         {

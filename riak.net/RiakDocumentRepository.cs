@@ -39,6 +39,18 @@ namespace System.Data.RiakClient
             return Find(request);
         }
 
+        public RiakResponse<RiakDocument[]> Find(string[] keys, Action<FindRequest> requestParameters)
+        {
+            RiakResponse<RiakDocument[]> result = RiakResponse<RiakDocument[]>.WithoutErrors(new RiakDocument[] {});
+            foreach(var key in keys)
+            {
+                var request = new FindRequest() {Key = key.GetBytes()};
+                requestParameters.Invoke(request);
+                var result = Find(request);
+                
+            }
+        }
+
         public RiakResponse<RiakDocument> Persist(PersistRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
