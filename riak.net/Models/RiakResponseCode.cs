@@ -3,6 +3,7 @@
     public enum RiakResponseCode
     {
         Successful,
-        Failed
+        Failed,
+        Warning
     }
 }

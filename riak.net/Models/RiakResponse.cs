@@ -42,5 +42,15 @@
                 Result = result
             };
         }
+
+        public static RiakResponse<T> WithWarning(string message, T result)
+        {
+            return new RiakResponse<T>
+            {
+                ResponseCode = RiakResponseCode.Warning,
+                Messages = new string[] { message },
+                Result = result
+            };
+        }
     }
 }

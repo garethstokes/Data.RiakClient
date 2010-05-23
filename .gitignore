@@ -5,3 +5,4 @@ _ReSharper.riak.net/*
 **/bin/*
 **/obj/*
 **/Properties/*
+*.ReSharper

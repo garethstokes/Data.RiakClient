@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using System.Data.RiakClient.Models;
+using Amib.Threading;
 
 namespace System.Data.RiakClient
 {
     public class RiakDocumentRepository
     {
         private RiakConnectionManager _connectionManager;
+        private readonly SmartThreadPool _threadPool = new SmartThreadPool();
 
         public RiakDocumentRepository(RiakConnectionManager connectionManager)
         {
@@ -41,14 +43,18 @@ namespace System.Data.RiakClient
 
         public RiakResponse<RiakDocument[]> Find(string[] keys, Action<FindRequest> requestParameters)
         {
-            RiakResponse<RiakDocument[]> result = RiakResponse<RiakDocument[]>.WithoutErrors(new RiakDocument[] {});
-            foreach(var key in keys)
-            {
-                var request = new FindRequest() {Key = key.GetBytes()};
-                requestParameters.Invoke(request);
-                var result = Find(request);
-                
-            }
+            var requests = keys.Select(key => new FindRequest {Key = key.GetBytes()})
+                               .Select(request => _threadPool.QueueWorkItem(() => {
+                                  requestParameters(request);
+                                  return Find(request);
+                               }))
+                               .ToArray();
+            SmartThreadPool.WaitAll(requests);
+            var failedRequests = requests.Where(r => r.Result.ResponseCode == RiakResponseCode.Failed);
+            return failedRequests.Count() > 0
+                ? RiakResponse<RiakDocument[]>.WithWarning("not all documents returned.", 
+                                                           requests.Select(x => x.Result.Result).ToArray())
+                : RiakResponse<RiakDocument[]>.WithoutErrors(requests.Select(x => x.Result.Result).ToArray());
         }
 
         public RiakResponse<RiakDocument> Persist(PersistRequest request)

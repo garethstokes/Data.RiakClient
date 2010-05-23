@@ -103,7 +103,7 @@ namespace riak.net.specs
 
             riakConnection.Persist(x => {
                 x.Bucket = bucket.GetBytes();
-                x.Key = key_1.GetBytes());
+                x.Key = key_1.GetBytes();
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;
