@@ -13,48 +13,31 @@ namespace System.Data.RiakClient
         {
             _connectionManager = connectionManager;
         }
-
-        public RiakResponse<RiakDocument> Find(FindRequest request)
+        
+        public RiakResponse<RiakDocument[]> Find(RiakFindRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
-            var r = connection.WriteWith(request, RequestMethod.Find);
-            if (r.ResponseCode == RiakResponseCode.Failed)
-            {
-                return RiakResponse<RiakDocument>.WithErrors(r.Messages);
-            }
+            var threads = request.GetInternalRequests()
+                                 .Select(r => _threadPool.QueueWorkItem(() => {
+                                     connection.WriteWith(r, RequestMethod.Find);
+                                     return connection.Read<FindResponse>();
+                                 }))
+                                 .ToArray();
+            SmartThreadPool.WaitAll(threads);
 
-            var response = connection.Read<FindResponse>();
-            if (response.ResponseCode == RiakResponseCode.Failed)
-            {
-                return RiakResponse<RiakDocument>.WithErrors(r.Messages);
-            }
-
-            return response.Result.Content.Count() == 0 || response.Result.Content.FirstOrDefault() == null
-                ? RiakResponse<RiakDocument>.WithErrors("No documents found")
-                : RiakResponse<RiakDocument>.WithoutErrors(response.Result.Content.First());
+            var responses = threads.Select(t => t.Result).ToArray();
+            var badResponses = responses.Where(r => r.ResponseCode == RiakResponseCode.Failed);
+            return badResponses.Count() == 0
+                ? RiakResponse<RiakDocument[]>.WithoutErrors(responses.Select(x => x.Result.Content.First()).ToArray())
+                : RiakResponse<RiakDocument[]>.WithWarning(badResponses.Select(x => x.Messages.LastOrDefault()).ToArray(),
+                                                           responses.Select(x => x.Result.Content.FirstOrDefault()).ToArray());
         }
 
-        public RiakResponse<RiakDocument> Find(Action<FindRequest> predicate)
+        public RiakResponse<RiakDocument[]> Find(Action<RiakFindRequest> predicate)
         {
-            var request = new FindRequest();
+            var request = new RiakFindRequest();
             predicate(request);
             return Find(request);
-        }
-
-        public RiakResponse<RiakDocument[]> Find(string[] keys, Action<FindRequest> requestParameters)
-        {
-            var requests = keys.Select(key => new FindRequest {Key = key.GetBytes()})
-                               .Select(request => _threadPool.QueueWorkItem(() => {
-                                  requestParameters(request);
-                                  return Find(request);
-                               }))
-                               .ToArray();
-            SmartThreadPool.WaitAll(requests);
-            var failedRequests = requests.Where(r => r.Result.ResponseCode == RiakResponseCode.Failed);
-            return failedRequests.Count() > 0
-                ? RiakResponse<RiakDocument[]>.WithWarning("not all documents returned.", 
-                                                           requests.Select(x => x.Result.Result).ToArray())
-                : RiakResponse<RiakDocument[]>.WithoutErrors(requests.Select(x => x.Result.Result).ToArray());
         }
 
         public RiakResponse<RiakDocument> Persist(PersistRequest request)

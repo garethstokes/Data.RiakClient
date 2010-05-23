@@ -80,8 +80,8 @@ namespace riak.net.specs
             // Act.
             var response = riakConnection.Find(x => {
                 x.ReadValue = 1;
-                x.Bucket = bucket.GetBytes();
-                x.Key = key.GetBytes();
+                x.Bucket = bucket;
+                x.Keys = new string[] { key };
             });
 
             // Assert.
@@ -126,9 +126,10 @@ namespace riak.net.specs
             });
 
             // Act.
-            var response = riakConnection.Find(new [] { key_1, key_2}, x => {
+            var response = riakConnection.Find(x => {
                 x.ReadValue = 1;
-                x.Bucket = bucket.GetBytes();
+                x.Bucket = bucket;
+                x.Keys = new string[] { key_1, key_2 };
             });
 
             // Assert.

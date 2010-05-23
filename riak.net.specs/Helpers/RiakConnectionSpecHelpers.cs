@@ -18,11 +18,11 @@ namespace riak.net.specs.Helpers
             };
         }
 
-        public static FindRequest GetFindRequest()
+        public static RiakFindRequest GetFindRequest()
         {
-            return new FindRequest {
-                Bucket = "test".GetBytes(),
-                Key = "123".GetBytes()
+            return new RiakFindRequest {
+                Bucket = "test",
+                Keys = new string[] { "123" }
             };
         }
 

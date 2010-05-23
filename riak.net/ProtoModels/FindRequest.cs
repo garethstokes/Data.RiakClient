@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace System.Data.RiakClient.Models
 {
     [Serializable, ProtoContract(Name = @"RpbGetReq")]
-    public class FindRequest : IExtensible
+    internal class FindRequest : IExtensible
     {
         private uint _r = default(uint);
         private byte[] _bucket;

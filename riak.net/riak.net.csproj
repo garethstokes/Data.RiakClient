@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ObjectHelpers.cs" />
+    <Compile Include="Models\RiakFindRequest.cs" />
     <Compile Include="Models\ServerInfo.cs" />
     <Compile Include="ProtoModels\GetServerInformationResponse.cs" />
     <Compile Include="ProtoModels\ListBucketsResponse.cs" />
