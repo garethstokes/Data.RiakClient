@@ -4,5 +4,4 @@ _ReSharper.riak.net/*
 **/*.user
 **/bin/*
 **/obj/*
-**/Properties/*
 *.ReSharper
