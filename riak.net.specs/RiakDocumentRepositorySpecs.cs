@@ -2,6 +2,7 @@
 using System.Data.RiakClient;
 using System;
 using System.Data.RiakClient.Models;
+using riak.net.specs.Helpers;
 
 namespace riak.net.specs
 {
@@ -12,9 +13,7 @@ namespace riak.net.specs
         public void ShouldPersistDocumentWithReturedDocument()
         {
             // Arrange.
-            var connectionManager = new RiakConnectionManager();
-            connectionManager.AddConnection("192.168.0.188", 8087);
-            var riakConnection = new RiakDocumentRepository(connectionManager);
+            var riakConnection = SpecHelpers.GetConnectionManager();
             
             // Act.
             var response = riakConnection.Persist(request => {
@@ -35,9 +34,7 @@ namespace riak.net.specs
         public void ShouldPersistDocumentWithoutReturedDocument()
         {
             // Arrange.
-            var connectionManager = RiakConnectionManager.FromConfiguration;
-            var riakConnection = new RiakDocumentRepository(connectionManager);
-            connectionManager.AddConnection("192.168.0.188", 8087); 
+            var riakConnection = SpecHelpers.GetConnectionManager();
            
             // Act.
             var response = riakConnection.Persist(request => {
@@ -58,9 +55,7 @@ namespace riak.net.specs
         public void ShouldFindDocument()
         {
             // Arrange.
-            var connectionManager = RiakConnectionManager.FromConfiguration;
-            var riakConnection = new RiakDocumentRepository(connectionManager);
-            connectionManager.AddConnection("192.168.0.188", 8087);
+            var riakConnection = SpecHelpers.GetConnectionManager();
 
             var bucket = Guid.NewGuid().ToString();
             var key = Guid.NewGuid().ToString();
@@ -93,9 +88,7 @@ namespace riak.net.specs
         public void ShouldFindMultipleDocuments()
         {
             // Arrange.
-            var connectionManager = RiakConnectionManager.FromConfiguration;
-            var riakConnection = new RiakDocumentRepository(connectionManager);
-            connectionManager.AddConnection("192.168.0.188", 8087);
+            var riakConnection = SpecHelpers.GetConnectionManager();
 
             var bucket = Guid.NewGuid().ToString();
             var key_1= Guid.NewGuid().ToString();
@@ -141,9 +134,7 @@ namespace riak.net.specs
         public void ShouldDetachDocument()
         {
             // Arrange.
-            var connectionManager = RiakConnectionManager.FromConfiguration;
-            var riakConnection = new RiakDocumentRepository(connectionManager);
-            connectionManager.AddConnection("192.168.0.188", 8087);
+            var riakConnection = SpecHelpers.GetConnectionManager();
 
             var bucket = Guid.NewGuid().ToString();
             var key = Guid.NewGuid().ToString();

@@ -11,7 +11,7 @@ namespace riak.net.specs
         public void ShouldPing()
         {
             // Arrange.
-            var connection = new RiakConnection { Host = "192.168.0.188", Port = 8087 };
+            var connection = new RiakConnection { Host = "192.168.30.118", Port = 8087 };
             var repository = new RiakManagementRepository(connection);
             
             // Act.
@@ -22,7 +22,7 @@ namespace riak.net.specs
         public void ShouldFindClientId()
         {
             // Arrange.
-            var connection = new RiakConnection { Host = "192.168.0.188", Port = 8087 };
+            var connection = new RiakConnection { Host = "192.168.30.118", Port = 8087 };
             var repository = new RiakManagementRepository(connection);
 
             // Act.
@@ -36,7 +36,7 @@ namespace riak.net.specs
         public void ShouldPersistClientId()
         {
             // Arrange.
-            var connection = new RiakConnection { Host = "192.168.0.188", Port = 8087 };
+            var connection = new RiakConnection { Host = "192.168.30.118", Port = 8087 };
             var repository = new RiakManagementRepository(connection);
 
             // Act.
@@ -50,7 +50,7 @@ namespace riak.net.specs
         public void ShouldGetServerInformation()
         {
             // Arrange.
-            var connection = new RiakConnection { Host = "192.168.0.188", Port = 8087 };
+            var connection = new RiakConnection { Host = "192.168.30.118", Port = 8087 };
             var repository = new RiakManagementRepository(connection);
 
             // Act.

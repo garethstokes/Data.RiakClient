@@ -41,5 +41,12 @@ namespace riak.net.specs.Helpers
                     ContentType = Encoding.UTF8.GetBytes("text/plain")
                 };
         }
+
+        public static RiakDocumentRepository GetConnectionManager()
+        {
+            var connectionManager = new RiakConnectionManager();
+            connectionManager.AddConnection("192.168.30.118", 8087);
+            return new RiakDocumentRepository(connectionManager);
+        }
     }
 }

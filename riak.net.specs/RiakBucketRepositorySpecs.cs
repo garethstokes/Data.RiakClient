@@ -13,7 +13,7 @@ namespace riak.net.specs
             // Arrange.
             var connectionManager = RiakConnectionManager.FromConfiguration;
             var repository = new RiakBucketRepository(connectionManager);
-            connectionManager.AddConnection("192.168.0.188", 8087);
+            connectionManager.AddConnection("192.168.30.118", 8087);
 
             // Act.
             var response = repository.ListBuckets();
@@ -29,7 +29,7 @@ namespace riak.net.specs
             var connectionManager = RiakConnectionManager.FromConfiguration;
             var repository = new RiakBucketRepository(connectionManager);
             var documentRepository = new RiakDocumentRepository(connectionManager);
-            connectionManager.AddConnection("192.168.0.188", 8087);
+            connectionManager.AddConnection("192.168.30.118", 8087);
 
             for (var i = 0; i < 3; i++ )
             {

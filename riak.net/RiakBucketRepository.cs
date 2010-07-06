@@ -36,7 +36,7 @@ namespace System.Data.RiakClient
             var writeResponse = connection.WriteWith(requestObject: request, 
                                                      method: RequestMethod.ListKeys);
             
-            // Keep looping untill all the results are returned.
+            // Keep looping untill the results are returned.
             return writeResponse.ResponseCode == RiakResponseCode.Failed
                 ? RiakResponse<string[]>.WithErrors(writeResponse.Messages)
                 : RiakResponse<string[]>.ReadResponse(() => {
