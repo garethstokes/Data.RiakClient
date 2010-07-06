@@ -5,3 +5,5 @@ _ReSharper.riak.net/*
 **/bin/*
 **/obj/*
 *.ReSharper
+**/*.pidb
+*.userprefs
