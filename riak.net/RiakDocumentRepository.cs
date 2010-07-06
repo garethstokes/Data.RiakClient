@@ -40,10 +40,10 @@ namespace System.Data.RiakClient
             return Find(request);
         }
 
-        public RiakResponse<RiakDocument> Persist(PersistRequest request)
+        public RiakResponse<RiakDocument> Persist(RiakPersistRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
-            var r = connection.WriteWith(request, RequestMethod.Perist);
+            var r = connection.WriteWith(request.ProxyRequest(), RequestMethod.Perist);
             if (r.ResponseCode == RiakResponseCode.Failed)
             {
                 return RiakResponse<RiakDocument>.WithErrors(r.Messages);
@@ -60,9 +60,9 @@ namespace System.Data.RiakClient
                 : RiakResponse<RiakDocument>.WithoutErrors(response.Result.Contents.FirstOrDefault());
         }
         
-        public RiakResponse<RiakDocument> Persist(Action<PersistRequest> predicate)
+        public RiakResponse<RiakDocument> Persist(Action<RiakPersistRequest> predicate)
         {
-            var request = new PersistRequest();
+            var request = new RiakPersistRequest();
             predicate(request);
             return Persist(request);
         }

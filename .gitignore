@@ -7,3 +7,4 @@ _ReSharper.riak.net/*
 *.ReSharper
 **/*.pidb
 *.userprefs
+**/test-results/*.xml

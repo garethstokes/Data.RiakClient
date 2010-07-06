@@ -17,8 +17,8 @@ namespace riak.net.specs
             
             // Act.
             var response = riakConnection.Persist(request => {
-                request.Bucket = "test_bucket".GetBytes();
-                request.Key = "test_key".GetBytes();
+                request.Bucket = "test_bucket";
+                request.Key = "test_key";
                 request.ReturnBody = true;
                 request.Content = new RiakDocument {
                     Value = "this is a test".GetBytes()
@@ -38,8 +38,8 @@ namespace riak.net.specs
            
             // Act.
             var response = riakConnection.Persist(request => {
-                request.Bucket = "test_bucket".GetBytes();
-                request.Key = "test_key".GetBytes();
+                request.Bucket = "test_bucket";
+                request.Key = "test_key";
                 request.ReturnBody = false;
                 request.Content = new RiakDocument {
                     Value = "this is a test".GetBytes()
@@ -61,8 +61,8 @@ namespace riak.net.specs
             var key = Guid.NewGuid().ToString();
 
             riakConnection.Persist(x => {
-                x.Bucket = bucket.GetBytes();
-                x.Key = key.GetBytes();
+                x.Bucket = bucket;
+                x.Key = key;
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;
@@ -95,8 +95,8 @@ namespace riak.net.specs
             var key_2= Guid.NewGuid().ToString();
 
             riakConnection.Persist(x => {
-                x.Bucket = bucket.GetBytes();
-                x.Key = key_1.GetBytes();
+                x.Bucket = bucket;
+                x.Key = key_1;
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;
@@ -107,8 +107,8 @@ namespace riak.net.specs
             });
 
             riakConnection.Persist(x => {
-                x.Bucket = bucket.GetBytes();
-                x.Key = key_2.GetBytes();
+                x.Bucket = bucket;
+                x.Key = key_2;
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;
@@ -141,8 +141,8 @@ namespace riak.net.specs
 
             riakConnection.Persist(x =>
             {
-                x.Bucket = bucket.GetBytes();
-                x.Key = key.GetBytes();
+                x.Bucket = bucket;
+                x.Key = key;
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;

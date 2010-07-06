@@ -35,8 +35,8 @@ namespace riak.net.specs
             {
                 documentRepository.Persist(x =>
                 {
-                    x.Bucket = "test_bucket".GetBytes();
-                    x.Key = string.Format("test_key_{0}", i).GetBytes();
+                    x.Bucket = "test_bucket";
+                    x.Key = string.Format("test_key_{0}", i);
                     x.ReturnBody = true;
                     x.Write = 1;
                     x.DW = 1;
