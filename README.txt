@@ -6,7 +6,7 @@ connectionManager.AddConnection("192.168.0.188", 8087); // server address and pr
 
 then make the connection to riak
 
-var riakConnection = new RiakDocumentRepository(connectionManager);
+var riakConnection = new RiakContentRepository(connectionManager);
 
 
 #Insert

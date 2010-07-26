@@ -2,12 +2,13 @@
 using System.Data.RiakClient;
 using System;
 using System.Data.RiakClient.Models;
+using riak.net.ProtoModels;
 using riak.net.specs.Helpers;
 
 namespace riak.net.specs
 {
     [TestFixture]
-    public class RiakDocumentRepositorySpecs
+    public class RiakContentRepositorySpecs
     {
         [Test]
         public void ShouldPersistDocumentWithReturedDocument()
@@ -20,7 +21,7 @@ namespace riak.net.specs
                 request.Bucket = "test_bucket";
                 request.Key = "test_key";
                 request.ReturnBody = true;
-                request.Content = new RiakDocument {
+                request.Content = new RiakContent {
                     Value = "this is a test".GetBytes()
                 };
             });
@@ -41,7 +42,7 @@ namespace riak.net.specs
                 request.Bucket = "test_bucket";
                 request.Key = "test_key";
                 request.ReturnBody = false;
-                request.Content = new RiakDocument {
+                request.Content = new RiakContent {
                     Value = "this is a test".GetBytes()
                 };
             });
@@ -66,7 +67,7 @@ namespace riak.net.specs
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;
-                x.Content = new RiakDocument{
+                x.Content = new RiakContent{
                     ContentType = "text/plain".GetBytes(),
                     Value = "this is a test".GetBytes()
                 };
@@ -76,7 +77,7 @@ namespace riak.net.specs
             var response = riakConnection.Find(x => {
                 x.ReadValue = 1;
                 x.Bucket = bucket;
-                x.Keys = new string[] { key };
+                x.Keys = new [] { key };
             });
 
             // Assert.
@@ -100,7 +101,7 @@ namespace riak.net.specs
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;
-                x.Content = new RiakDocument{
+                x.Content = new RiakContent{
                     ContentType = "text/plain".GetBytes(),
                     Value = "this is a test".GetBytes()
                 };
@@ -112,7 +113,7 @@ namespace riak.net.specs
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;
-                x.Content = new RiakDocument{
+                x.Content = new RiakContent{
                     ContentType = "text/plain".GetBytes(),
                     Value = "this is a test".GetBytes()
                 };
@@ -146,7 +147,7 @@ namespace riak.net.specs
                 x.ReturnBody = true;
                 x.Write = 1;
                 x.DW = 1;
-                x.Content = new RiakDocument
+                x.Content = new RiakContent
                 {
                     ContentType = "text/plain".GetBytes(),
                     Value = "this is a test".GetBytes()
@@ -155,8 +156,8 @@ namespace riak.net.specs
 
             // Act.
             var response = riakConnection.Detach(x => {
-                x.Bucket = bucket.GetBytes();
-                x.Key = key.GetBytes();
+                x.Bucket = bucket;
+                x.Key = key;
             });
 
             // Assert.

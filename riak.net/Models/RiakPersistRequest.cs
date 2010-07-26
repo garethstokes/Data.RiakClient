@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Data.RiakClient.Models;
+using riak.net.ProtoModels;
 
 namespace System.Data.RiakClient
 {
@@ -15,7 +16,7 @@ namespace System.Data.RiakClient
         public string Key { get; set; }
         public string VClock { get; set; }
 
-		public RiakDocument Content { get; set; }
+		public RiakContent Content { get; set; }
 
         public uint Write { get; set; }
         public uint DW { get; set; }

@@ -1,15 +1,17 @@
 ﻿using System.Linq;
 using System.Data.RiakClient.Models;
 using Amib.Threading;
+using riak.net.Models;
+using riak.net.ProtoModels;
 
 namespace System.Data.RiakClient
 {
-    public class RiakDocumentRepository
+    public class RiakContentRepository
     {
         private RiakConnectionManager _connectionManager;
         private readonly SmartThreadPool _threadPool = new SmartThreadPool();
 
-        public RiakDocumentRepository(RiakConnectionManager connectionManager)
+        public RiakContentRepository(RiakConnectionManager connectionManager)
         {
             _connectionManager = connectionManager;
         }
@@ -28,9 +30,14 @@ namespace System.Data.RiakClient
             var responses = threads.Select(t => t.Result).ToArray();
             var badResponses = responses.Where(r => r.ResponseCode == RiakResponseCode.Failed);
             return badResponses.Count() == 0
-                ? RiakResponse<RiakDocument[]>.WithoutErrors(responses.Select(x => x.Result.Content.First()).ToArray())
+                ? RiakResponse<RiakDocument[]>.WithoutErrors(responses.Select(x => x.Result.Content.First().ToDocument()).ToArray())
                 : RiakResponse<RiakDocument[]>.WithWarning(badResponses.Select(x => x.Messages.LastOrDefault()).ToArray(),
-                                                           responses.Select(x => x.Result.Content.FirstOrDefault()).ToArray());
+                                                           responses.Select(x => {
+                                                               var content = x.Result.Content.FirstOrDefault();
+                                                               return content == null 
+                                                                   ? null 
+                                                                   : x.Result.Content.FirstOrDefault().ToDocument();
+                                                           }).ToArray());
         }
 
         public RiakResponse<RiakDocument[]> Find(Action<RiakFindRequest> predicate)
@@ -40,45 +47,45 @@ namespace System.Data.RiakClient
             return Find(request);
         }
 
-        public RiakResponse<RiakDocument> Persist(RiakPersistRequest request)
+        public RiakResponse<RiakContent> Persist(RiakPersistRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
             var r = connection.WriteWith(request.ProxyRequest(), RequestMethod.Perist);
             if (r.ResponseCode == RiakResponseCode.Failed)
             {
-                return RiakResponse<RiakDocument>.WithErrors(r.Messages);
+                return RiakResponse<RiakContent>.WithErrors(r.Messages);
             }
 
             var response = connection.Read<PersistResponse>();
             if (response.ResponseCode == RiakResponseCode.Failed)
             {
-                return RiakResponse<RiakDocument>.WithErrors(r.Messages);
+                return RiakResponse<RiakContent>.WithErrors(r.Messages);
             }
 
             return response.Result == null || response.Result.VectorClock == null
-                ? RiakResponse<RiakDocument>.WithErrors("Connection was successful but persist failed")
-                : RiakResponse<RiakDocument>.WithoutErrors(response.Result.Contents.FirstOrDefault());
+                ? RiakResponse<RiakContent>.WithErrors("Connection was successful but persist failed")
+                : RiakResponse<RiakContent>.WithoutErrors(response.Result.Content.FirstOrDefault());
         }
         
-        public RiakResponse<RiakDocument> Persist(Action<RiakPersistRequest> predicate)
+        public RiakResponse<RiakContent> Persist(Action<RiakPersistRequest> predicate)
         {
             var request = new RiakPersistRequest();
             predicate(request);
             return Persist(request);
         }
 
-        public RiakResponse<bool> Detach(DetachRequest request)
+        public RiakResponse<bool> Detach(RiakDetachRequest request)
         {
             var connection = _connectionManager.GetNextConnection();
-            var r = connection.WriteWith(request, RequestMethod.Detach);
+            var r = connection.WriteWith(request.ProxyRequest(), RequestMethod.Detach);
             return r.ResponseCode == RiakResponseCode.Failed
                 ? RiakResponse<bool>.WithErrors(false, r.Messages)
                 : RiakResponse<bool>.WithoutErrors(true);
         }
 
-        public RiakResponse<bool> Detach(Action<DetachRequest> predicate)
+        public RiakResponse<bool> Detach(Action<RiakDetachRequest> predicate)
         {
-            var request = new DetachRequest();
+            var request = new RiakDetachRequest();
             predicate(request);
             return Detach(request);
         }

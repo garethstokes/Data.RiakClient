@@ -1,5 +1,6 @@
 ﻿using ProtoBuf;
 using System.ComponentModel;
+using riak.net.ProtoModels;
 
 namespace System.Data.RiakClient.Models
 {
@@ -9,7 +10,7 @@ namespace System.Data.RiakClient.Models
         private byte[] _key;
         private byte[] _bucket;
         private byte[] _vclock = null;
-        private RiakDocument _content;    
+        private RiakContent _content;    
         private uint _w = default(uint);
         private bool _return_body = default(bool);
         
@@ -49,7 +50,7 @@ namespace System.Data.RiakClient.Models
                      IsRequired = true,
                      Name = @"content",
                      DataFormat =  DataFormat.Default)]
-        public RiakDocument Content
+        public RiakContent Content
         {
             get { return _content; }
             set { _content = value; }

@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Data.RiakClient;
 using System.Data.RiakClient.Models;
+using riak.net.ProtoModels;
 
 namespace riak.net.specs.Helpers
 {
@@ -12,7 +13,7 @@ namespace riak.net.specs.Helpers
                 Bucket = Encoding.UTF8.GetBytes("test_bucket"),
                 Key = Encoding.UTF8.GetBytes("test_key"),
                 ReturnBody = true,
-                Content = new RiakDocument {
+                Content = new RiakContent {
                     Value = Encoding.UTF8.GetBytes("this is a test")
                 }
             };
@@ -34,19 +35,19 @@ namespace riak.net.specs.Helpers
             };
         }
 
-        public static RiakDocument GetTestDocument()
+        public static RiakContent GetTestDocument()
         {
-            return new RiakDocument {
+            return new RiakContent {
                     Value = Encoding.UTF8.GetBytes("this is a test"),
                     ContentType = Encoding.UTF8.GetBytes("text/plain")
                 };
         }
 
-        public static RiakDocumentRepository GetConnectionManager()
+        public static RiakContentRepository GetConnectionManager()
         {
             var connectionManager = new RiakConnectionManager();
             connectionManager.AddConnection("192.168.30.118", 8087);
-            return new RiakDocumentRepository(connectionManager);
+            return new RiakContentRepository(connectionManager);
         }
     }
 }

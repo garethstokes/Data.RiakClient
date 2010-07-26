@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using ProtoBuf;
+using riak.net.ProtoModels;
 
 namespace System.Data.RiakClient.Models
 {
     [Serializable, ProtoContract(Name = @"RpbPutResp")]
     public class PersistResponse : IExtensible
     {
-        private readonly List<RiakDocument> _contents = new List<RiakDocument>();
-        [ProtoMember(1, Name = @"contents", DataFormat = DataFormat.Default)]
-        public List<RiakDocument> Contents
+        private readonly List<RiakContent> _content = new List<RiakContent>();
+        [ProtoMember(1, Name = @"content", DataFormat = DataFormat.Default)]
+        public List<RiakContent> Content
         {
-            get { return _contents; }
+            get { return _content; }
         }
 
         private byte[] _vclock = null;

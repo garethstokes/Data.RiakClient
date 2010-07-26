@@ -48,7 +48,7 @@ message RpbPutReq {
 }
 
 message RpbPutResp {
-    repeated RpbContent contents = 1;
+    repeated RpbContent content = 1;
     optional bytes vclock = 2;        // the opaque vector clock for the object
 }
 

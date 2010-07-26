@@ -2,6 +2,8 @@
 using System.Data.RiakClient.Models;
 using System.Data.RiakClient;
 using System;
+using riak.net.ProtoModels;
+
 namespace riak.net.specs
 {
     [TestFixture]
@@ -28,7 +30,7 @@ namespace riak.net.specs
             // Arrange.
             var connectionManager = RiakConnectionManager.FromConfiguration;
             var repository = new RiakBucketRepository(connectionManager);
-            var documentRepository = new RiakDocumentRepository(connectionManager);
+            var documentRepository = new RiakContentRepository(connectionManager);
             connectionManager.AddConnection("192.168.30.118", 8087);
 
             for (var i = 0; i < 3; i++ )
@@ -40,7 +42,7 @@ namespace riak.net.specs
                     x.ReturnBody = true;
                     x.Write = 1;
                     x.DW = 1;
-                    x.Content = new RiakDocument
+                    x.Content = new RiakContent
                     {
                         ContentType = "text/plain".GetBytes(),
                         Value = "this is a test".GetBytes()

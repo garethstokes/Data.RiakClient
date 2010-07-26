@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.RiakClient;
+using System.Data.RiakClient.Models;
 using ProtoBuf;
 using System.ComponentModel;
+using riak.net.Models;
 
-namespace System.Data.RiakClient.Models
+namespace riak.net.ProtoModels
 {
     [Serializable, ProtoContract(Name = @"RpbContent")]
-    public class RiakDocument : IExtensible
+    public class RiakContent : IExtensible
     {
         private byte[] _value;
         [ProtoMember(1, IsRequired = true, Name = @"value", DataFormat = DataFormat.Default)]
@@ -86,5 +90,18 @@ namespace System.Data.RiakClient.Models
         private IExtension extensionObject;
         IExtension IExtensible.GetExtensionObject(bool createIfMissing)
         { return Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+
+        internal RiakDocument ToDocument()
+        {
+            return new RiakDocument {
+                Charset = Charset != null ? Charset.DecodeToString() : null, 
+                ContentEncoding = ContentEncoding != null ? ContentEncoding.DecodeToString() : null, 
+                ContentType = ContentType != null ? ContentType.DecodeToString() : null, 
+                LastModified = LastMod, 
+                LastModifiedInSeconds = LastModSecs, 
+                Value = Value != null ? Value.DecodeToString() : null, 
+                VectorClock = Value != null ? vtag.DecodeToString() : null
+           };
+        }
     }
 }
